@@ -8,8 +8,10 @@ public class Hero : MonoBehaviour
     public int CurHp { get; set; }
     public int MaxHp { get; set; }
     public int Atk { get; set; }
-    public float Accuracy { get; set; }
     public bool isDead { get; set; } = false;
+
+    public Skill attackSkill;
+    public Skill skill;
 
     public event Action<float> OnHealthPctChanged = delegate { };
 
@@ -20,11 +22,7 @@ public class Hero : MonoBehaviour
     {
         animator = GetComponent<Animator>();
 
-        MaxHp = 100;
-        Atk = 50;
-        Accuracy = 0.75f;
-
-        CurHp = MaxHp;
+        StatusSetup();
     }
 
     // ----------------------
@@ -43,29 +41,19 @@ public class Hero : MonoBehaviour
 
         yield return new WaitForSeconds(0.5f);
 
-        // Hitcheck based on accuracy
-        if (HitCheck(Accuracy))
+        // Check skill activation
+        if (skill != null && SkillActivationCheck(skill))
         {
-            // Apply damage to the enemy
-            enemy.applyDamage(Atk);
-
-            // Show floating damage number
-            DamagePopup.Create(enemy.transform.position, Atk);
+            skill.Activate(Atk, new Hero[] { enemy });
         }
-        else // Miss
+        else
         {
-            // Show miss text
-            DamagePopup.Create(enemy.transform.position, "Miss");
+            attackSkill.Activate(Atk, new Hero[] { enemy });
         }
 
     }
 
-
-    // -----------------------
-    // --- Private Methods ---
-    // -----------------------
-
-    void applyDamage(int damage)
+    public void applyDamage(int damage)
     {
         // Apply the damage received
         CurHp -= damage;
@@ -77,6 +65,19 @@ public class Hero : MonoBehaviour
         if (CurHp <= 0) isDead = true;
     }
 
+
+    // -----------------------
+    // --- Private Methods ---
+    // -----------------------
+
+    void StatusSetup()
+    {
+        MaxHp = 100;
+        Atk = 20;
+
+        CurHp = MaxHp;
+    }
+
     void UpdateUI()
     {
         float currentHealthPct = (float)CurHp / (float)MaxHp;
@@ -86,5 +87,10 @@ public class Hero : MonoBehaviour
     bool HitCheck(float accuracy)
     {
         return (UnityEngine.Random.Range(0f, 1f) <= accuracy);
+    }
+
+    bool SkillActivationCheck(Skill skill)
+    {
+        return (UnityEngine.Random.Range(0f, 100f) <= skill.actChance);
     }
 }

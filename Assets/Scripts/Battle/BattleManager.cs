@@ -17,7 +17,6 @@ public class BattleManager : MonoBehaviour
 {
     public Hero ally;
     public Hero enemy;
-    public GameObject victoryBanner, defeatBanner;
     public GameObject battleEndCanvas;
     public TextMeshProUGUI battleEndMessage;
 
