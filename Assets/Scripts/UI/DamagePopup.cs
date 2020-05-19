@@ -9,19 +9,28 @@ public class DamagePopup : MonoBehaviour
     Color textColor;
     float lifetime = 0.5f;
 
-    public static DamagePopup Create(Vector3 pos, int damageAmount)
+    // --------------------------
+    // ----- Static methods -----
+    // --------------------------
+
+    public static DamagePopup CreateDamage(Vector3 pos, int damageAmount)
     {
-        Transform damagePopupTransform = Instantiate(GameAssets.Instance.damagePopup, pos, Quaternion.identity);
-
-        DamagePopup damagePopup = damagePopupTransform.GetComponent<DamagePopup>();
-        damagePopup.Setup(damageAmount);
-
-        return damagePopup;
+        return Create(GameAssets.i.damagePopup, pos, damageAmount.ToString());
     }
 
-    public static DamagePopup Create(Vector3 pos, string text)
+    public static DamagePopup CreateHeal(Vector3 pos, int damageAmount)
     {
-        Transform damagePopupTransform = Instantiate(GameAssets.Instance.damagePopup, pos, Quaternion.identity);
+        return Create(GameAssets.i.healPopup, pos, damageAmount.ToString());
+    }
+
+    public static DamagePopup CreateText(Vector3 pos, string text)
+    {
+        return Create(GameAssets.i.textPopup, pos, text);
+    }
+
+    public static DamagePopup Create(Transform pf_Popup, Vector3 pos, string text)
+    {
+        Transform damagePopupTransform = Instantiate(pf_Popup, pos, Quaternion.identity);
 
         DamagePopup damagePopup = damagePopupTransform.GetComponent<DamagePopup>();
         damagePopup.Setup(text);
@@ -29,15 +38,10 @@ public class DamagePopup : MonoBehaviour
         return damagePopup;
     }
 
+    // Initiatlization
     void Awake()
     {
         tmp = GetComponent<TextMeshPro>();
-    }
-
-    public void Setup(int damageAmount)
-    {
-        tmp.SetText(damageAmount.ToString());
-        textColor = tmp.color;
     }
 
     public void Setup(string text)

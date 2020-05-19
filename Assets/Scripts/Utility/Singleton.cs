@@ -7,7 +7,7 @@ public class Singleton<Type>:MonoBehaviour where Type:MonoBehaviour
  
 	private static object _lock = new object();
  
-	public static Type Instance
+	public static Type i
 	{
 		get
 		{

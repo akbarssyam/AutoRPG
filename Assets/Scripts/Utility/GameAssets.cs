@@ -4,5 +4,10 @@ using UnityEngine;
 
 public class GameAssets : Singleton<GameAssets>
 {
+    public Sprite tombstone;
+
+    [Header("Battle Popup Assets")]
     public Transform damagePopup;
+    public Transform healPopup;
+    public Transform textPopup;
 }

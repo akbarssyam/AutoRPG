@@ -11,12 +11,24 @@ public abstract class Skill : ScriptableObject
     public float accuracy;          // Hit chance
     public int actChance;           // Activation chance
 
-    //public SkillTarget skillTarget;
+    public AnimationClip animationClip;
+    public AnimationClip hitEffectClip;
 
-    public abstract void Activate(int atk, Hero[] targets);
+    public AudioClip castingAudio;
+    public AudioClip hitEffectAudio;
+    
+    public SkillTarget skillTarget;
+
+    public abstract void Activate(int atk, Team targets, Hero self);
 
     public bool HitCheck(float accuracy)
     {
         return (Random.Range(0f, 1f) <= accuracy);
     }
+
+    public virtual bool ActivationCheck(Team target)
+    {
+        return (UnityEngine.Random.Range(0f, 100f) <= actChance);
+    }
+
 }

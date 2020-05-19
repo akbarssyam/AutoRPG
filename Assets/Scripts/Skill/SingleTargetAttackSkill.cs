@@ -5,24 +5,29 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Skill", menuName = "Skills/SingleTargetAttack")]
 public class SingleTargetAttackSkill : Skill
 {
-    public override void Activate(int atk, Hero[] targets)
+    private void Awake()
     {
-        Hero target = targets[0];
+        skillTarget = SkillTarget.Enemy;
+    }
+
+    public override void Activate(int atk, Team targets, Hero self)
+    {
+        Hero target = targets.GetRandomHero();
         int damage = atk * power / 100;
 
         // Hitcheck based on accuracy
         if (HitCheck(accuracy))
         {
             // Apply damage to the enemy
-            target.applyDamage(damage);
+            target.applyDamage(damage, this);
 
             // Show floating damage number
-            DamagePopup.Create(target.transform.position, damage);
+            DamagePopup.CreateDamage(target.transform.position, damage);
         }
         else // Miss
         {
             // Show miss text
-            DamagePopup.Create(target.transform.position, "Miss");
+            DamagePopup.CreateText(target.transform.position, "Miss");
         }
     }
 }

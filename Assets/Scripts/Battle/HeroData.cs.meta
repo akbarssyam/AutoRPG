@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 4d651f28f129f2645b61e533b979164a
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - attackSkill: {fileID: 11400000, guid: e3de617d7e9a7eb46ad9ab1222c8acd7, type: 2}
+  - skill: {instanceID: 0}
+  - heroSprite: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
